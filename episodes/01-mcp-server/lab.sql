@@ -136,6 +136,7 @@ SELECT
       -- the stories hidden in the data
       * CASE WHEN STORE_ID = 'S01' AND ORDER_DATE >= '2026-09-01' AND CATEGORY = 'Coffee' THEN 0.55  -- Shibuya espresso machine outage
              WHEN STORE_ID = 'S01' AND ORDER_DATE >= '2026-09-01'                         THEN 0.80  -- long queues hit everything
+             WHEN STORE_ID = 'S02' AND ORDER_DATE >= '2026-09-01'                         THEN 1.12  -- Shibuya regulars move to Shinjuku
              WHEN STORE_ID = 'S05' AND ORDER_DATE >= '2026-09-01' AND PRODUCT_NAME = 'Cold Brew' THEN 0.50  -- London new cold brew recipe
              WHEN COUNTRY  = 'India' AND ORDER_DATE >= '2026-08-01' AND PRODUCT_NAME = 'Masala Chai' THEN 1.40  -- monsoon chai boom
              ELSE 1.0 END
