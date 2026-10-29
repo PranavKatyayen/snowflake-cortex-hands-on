@@ -1,0 +1,193 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A1020"/>
+      <stop offset="1" stop-color="#0E1A30"/>
+    </linearGradient>
+    <linearGradient id="sf" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#29B5E8"/>
+      <stop offset="1" stop-color="#6E8BFF"/>
+    </linearGradient>
+    <linearGradient id="agent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1B3D6B"/>
+      <stop offset="1" stop-color="#14294A"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#29B5E8"/>
+    </marker>
+    <marker id="arrg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7C8AA5"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <!-- subtle grid -->
+  <g stroke="#FFFFFF" stroke-opacity="0.03">
+    <path d="M0 100H1600M0 200H1600M0 300H1600M0 400H1600M0 500H1600M0 600H1600M0 700H1600M0 800H1600"/>
+    <path d="M100 0V900M200 0V900M300 0V900M400 0V900M500 0V900M600 0V900M700 0V900M800 0V900M900 0V900M1000 0V900M1100 0V900M1200 0V900M1300 0V900M1400 0V900M1500 0V900"/>
+  </g>
+
+  <!-- Title -->
+  <text x="60" y="68" font-size="34" font-weight="700" fill="#FFFFFF">Talk to Snowflake from any AI client</text>
+  <text x="60" y="102" font-size="19" fill="#9FB0CC">Snowflake-managed MCP server · Cortex Agent · Cortex Analyst · Cortex Search · custom tools</text>
+  <rect x="1330" y="44" width="210" height="40" rx="20" fill="none" stroke="url(#sf)" stroke-width="2"/>
+  <text x="1435" y="70" font-size="16" font-weight="600" fill="#29B5E8" text-anchor="middle">EPISODE 1</text>
+
+  <!-- ===================== CLIENTS ===================== -->
+  <text x="60" y="168" font-size="14" font-weight="700" fill="#7C8AA5" letter-spacing="2">AI CLIENTS</text>
+
+  <!-- question bubble -->
+  <rect x="60" y="184" width="300" height="62" rx="14" fill="#1A2540" stroke="#2E3F63"/>
+  <path d="M110 246 L122 262 L134 246 z" fill="#1A2540" stroke="#2E3F63"/>
+  <rect x="111" y="244" width="22" height="4" fill="#1A2540"/>
+  <text x="80" y="211" font-size="15" fill="#E6ECF7" font-style="italic">“Why did Shibuya revenue</text>
+  <text x="80" y="232" font-size="15" fill="#E6ECF7" font-style="italic">drop 36% in September?”</text>
+
+  <g>
+    <rect x="60" y="285" width="300" height="96" rx="14" fill="#131C2E" stroke="#D97757" stroke-width="2"/>
+    <circle cx="100" cy="333" r="20" fill="#D97757"/>
+    <text x="100" y="340" font-size="20" font-weight="700" fill="#131C2E" text-anchor="middle">C</text>
+    <text x="134" y="327" font-size="21" font-weight="700" fill="#FFFFFF">Claude</text>
+    <text x="134" y="352" font-size="14" fill="#9FB0CC">Desktop · web · custom connector</text>
+  </g>
+  <g>
+    <rect x="60" y="400" width="300" height="96" rx="14" fill="#131C2E" stroke="#3A4A6B" stroke-width="2"/>
+    <circle cx="100" cy="448" r="20" fill="#E6ECF7"/>
+    <text x="100" y="455" font-size="18" font-weight="700" fill="#131C2E" text-anchor="middle">⌘</text>
+    <text x="134" y="442" font-size="21" font-weight="700" fill="#FFFFFF">Cursor</text>
+    <text x="134" y="467" font-size="14" fill="#9FB0CC">IDE · mcp.json · bonus</text>
+  </g>
+  <g>
+    <rect x="60" y="515" width="300" height="96" rx="14" fill="#131C2E" stroke="#3A4A6B" stroke-width="2" stroke-dasharray="6 6"/>
+    <circle cx="100" cy="563" r="20" fill="none" stroke="#7C8AA5" stroke-width="2"/>
+    <text x="100" y="569" font-size="18" font-weight="700" fill="#7C8AA5" text-anchor="middle">+</text>
+    <text x="134" y="557" font-size="21" font-weight="700" fill="#FFFFFF">Any MCP client</text>
+    <text x="134" y="582" font-size="14" fill="#9FB0CC">ChatGPT · VS Code · your app</text>
+  </g>
+
+  <!-- connection -->
+  <path d="M360 333 C 410 333, 410 448, 450 448" fill="none" stroke="#29B5E8" stroke-width="2.5"/>
+  <path d="M360 563 C 410 563, 410 448, 450 448" fill="none" stroke="#29B5E8" stroke-width="2.5"/>
+  <line x1="360" y1="448" x2="500" y2="448" stroke="#29B5E8" stroke-width="2.5" marker-end="url(#arr)"/>
+  <rect x="376" y="640" width="120" height="78" rx="10" fill="#101A2C" stroke="#2E3F63"/>
+  <text x="436" y="664" font-size="13" font-weight="700" fill="#29B5E8" text-anchor="middle">HTTPS</text>
+  <text x="436" y="684" font-size="13" fill="#C8D3E6" text-anchor="middle">MCP · JSON-RPC</text>
+  <text x="436" y="704" font-size="13" fill="#C8D3E6" text-anchor="middle">OAuth 2.0 + PKCE</text>
+  <line x1="436" y1="640" x2="436" y2="460" stroke="#2E3F63" stroke-dasharray="3 4"/>
+
+  <!-- ===================== SNOWFLAKE ACCOUNT ===================== -->
+  <rect x="505" y="150" width="1040" height="660" rx="22" fill="#0D1729" stroke="url(#sf)" stroke-width="2.5"/>
+  <g transform="translate(535,186)">
+    <g stroke="#29B5E8" stroke-width="3" stroke-linecap="round">
+      <line x1="0" y1="-12" x2="0" y2="12"/>
+      <line x1="-10.4" y1="-6" x2="10.4" y2="6"/>
+      <line x1="-10.4" y1="6" x2="10.4" y2="-6"/>
+    </g>
+  </g>
+  <text x="558" y="193" font-size="16" font-weight="700" fill="#29B5E8" letter-spacing="2">SNOWFLAKE ACCOUNT</text>
+  <text x="1515" y="193" font-size="14" fill="#7C8AA5" text-anchor="end">SNOWBREW_LAB.CORE</text>
+
+  <!-- MCP server -->
+  <rect x="535" y="225" width="290" height="440" rx="16" fill="#122039" stroke="#29B5E8" stroke-width="2" filter="url(#glow)"/>
+  <text x="557" y="258" font-size="13" font-weight="700" fill="#29B5E8" letter-spacing="2">MCP SERVER</text>
+  <text x="557" y="286" font-size="22" font-weight="700" fill="#FFFFFF">SNOWBREW_MCP</text>
+  <text x="557" y="308" font-size="13" fill="#9FB0CC">declared in SQL · one HTTPS endpoint</text>
+
+  <g font-size="14">
+    <rect x="555" y="328" width="250" height="56" rx="10" fill="#1E4A80" stroke="#29B5E8"/>
+    <text x="570" y="351" font-weight="700" fill="#FFFFFF">snowbrew_copilot</text>
+    <text x="570" y="372" font-size="12" fill="#BFD3F0">CORTEX_AGENT_RUN · front door</text>
+
+    <rect x="555" y="394" width="250" height="50" rx="10" fill="#17294A" stroke="#2E3F63"/>
+    <text x="570" y="416" font-weight="600" fill="#E6ECF7">search_customer_feedback</text>
+    <text x="570" y="434" font-size="12" fill="#9FB0CC">CORTEX_SEARCH_SERVICE_QUERY</text>
+
+    <rect x="555" y="454" width="250" height="50" rx="10" fill="#17294A" stroke="#2E3F63"/>
+    <text x="570" y="476" font-weight="600" fill="#E6ECF7">sales_analyst</text>
+    <text x="570" y="494" font-size="12" fill="#9FB0CC">CORTEX_ANALYST_MESSAGE</text>
+
+    <rect x="555" y="514" width="250" height="50" rx="10" fill="#17294A" stroke="#2E3F63"/>
+    <text x="570" y="536" font-weight="600" fill="#E6ECF7">simulate_price_change</text>
+    <text x="570" y="554" font-size="12" fill="#9FB0CC">GENERIC · stored procedure</text>
+  </g>
+  <text x="557" y="596" font-size="12" fill="#7C8AA5">+ 3 async agent tools added automatically</text>
+  <text x="557" y="616" font-size="12" fill="#7C8AA5">no SYSTEM_EXECUTE_SQL (keeps the</text>
+  <text x="557" y="634" font-size="12" fill="#7C8AA5">semantic layer un-bypassable)</text>
+
+  <!-- MCP -> Agent -->
+  <line x1="805" y1="356" x2="878" y2="356" stroke="#29B5E8" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- Agent -->
+  <rect x="880" y="285" width="260" height="210" rx="16" fill="url(#agent)" stroke="#6E8BFF" stroke-width="2"/>
+  <text x="902" y="318" font-size="13" font-weight="700" fill="#A9B8FF" letter-spacing="2">CORTEX AGENT</text>
+  <text x="902" y="348" font-size="22" font-weight="700" fill="#FFFFFF">Snowbrew Copilot</text>
+  <g font-size="14" fill="#D5DEF0">
+    <text x="902" y="382">① quantify the change</text>
+    <text x="902" y="406">② look for the cause</text>
+    <text x="902" y="430">③ simulate what-ifs</text>
+    <text x="902" y="454">④ answer with numbers + quotes</text>
+  </g>
+  <text x="902" y="480" font-size="12" fill="#8FA0C8">orchestration model: auto</text>
+
+  <!-- Agent -> tools -->
+  <path d="M1140 330 C 1170 330, 1170 280, 1198 280" fill="none" stroke="#6E8BFF" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="1140" y1="400" x2="1198" y2="400" stroke="#6E8BFF" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M1140 460 C 1170 460, 1170 520, 1198 520" fill="none" stroke="#6E8BFF" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Tools -->
+  <g>
+    <rect x="1200" y="232" width="315" height="96" rx="14" fill="#131F36" stroke="#2E3F63"/>
+    <rect x="1200" y="232" width="6" height="96" rx="3" fill="#36C5A4"/>
+    <text x="1222" y="260" font-size="13" font-weight="700" fill="#36C5A4" letter-spacing="2">CORTEX ANALYST</text>
+    <text x="1222" y="286" font-size="18" font-weight="700" fill="#FFFFFF">Semantic view</text>
+    <text x="1222" y="310" font-size="13" fill="#9FB0CC">SNOWBREW_SALES · revenue · margin · units</text>
+  </g>
+  <g>
+    <rect x="1200" y="352" width="315" height="96" rx="14" fill="#131F36" stroke="#2E3F63"/>
+    <rect x="1200" y="352" width="6" height="96" rx="3" fill="#F2B84B"/>
+    <text x="1222" y="380" font-size="13" font-weight="700" fill="#F2B84B" letter-spacing="2">CORTEX SEARCH</text>
+    <text x="1222" y="406" font-size="18" font-weight="700" fill="#FFFFFF">FEEDBACK_SEARCH</text>
+    <text x="1222" y="430" font-size="13" fill="#9FB0CC">multilingual · arctic-embed-l-v2.0</text>
+  </g>
+  <g>
+    <rect x="1200" y="472" width="315" height="96" rx="14" fill="#131F36" stroke="#2E3F63"/>
+    <rect x="1200" y="472" width="6" height="96" rx="3" fill="#E86A92"/>
+    <text x="1222" y="500" font-size="13" font-weight="700" fill="#E86A92" letter-spacing="2">CUSTOM TOOL</text>
+    <text x="1222" y="526" font-size="18" font-weight="700" fill="#FFFFFF">SIMULATE_PRICE_CHANGE()</text>
+    <text x="1222" y="550" font-size="13" fill="#9FB0CC">your logic as a stored procedure</text>
+  </g>
+
+  <!-- Data -->
+  <text x="880" y="602" font-size="13" font-weight="700" fill="#7C8AA5" letter-spacing="2">DATA  ·  feeds the semantic view &amp; search index</text>
+  <g>
+    <rect x="880" y="616" width="300" height="70" rx="12" fill="#101A2C" stroke="#2E3F63"/>
+    <text x="900" y="645" font-size="16" font-weight="700" fill="#E6ECF7">Sales tables</text>
+    <text x="900" y="669" font-size="13" fill="#9FB0CC">DAILY_SALES · STORES · PRODUCTS · 9,760 rows</text>
+  </g>
+  <g>
+    <rect x="1200" y="616" width="315" height="70" rx="12" fill="#101A2C" stroke="#2E3F63"/>
+    <text x="1220" y="645" font-size="16" font-weight="700" fill="#E6ECF7">CUSTOMER_FEEDBACK</text>
+    <text x="1220" y="669" font-size="13" fill="#9FB0CC">reviews in English · 日本語 · Hinglish</text>
+  </g>
+
+  <!-- Governance -->
+  <text x="535" y="726" font-size="13" font-weight="700" fill="#7C8AA5" letter-spacing="2">GOVERNANCE &amp; COMPUTE</text>
+  <g font-size="14" font-weight="600" fill="#E6ECF7">
+    <rect x="535" y="740" width="232" height="44" rx="22" fill="#14223B" stroke="#2E3F63"/>
+    <text x="651" y="767" text-anchor="middle">🔐 RBAC · MCP_LAB_ROLE</text>
+    <rect x="781" y="740" width="232" height="44" rx="22" fill="#14223B" stroke="#2E3F63"/>
+    <text x="897" y="767" text-anchor="middle">🔑 OAuth security integration</text>
+    <rect x="1027" y="740" width="232" height="44" rx="22" fill="#14223B" stroke="#2E3F63"/>
+    <text x="1143" y="767" text-anchor="middle">⚡ Warehouse · MCP_LAB_WH</text>
+    <rect x="1273" y="740" width="242" height="44" rx="22" fill="#14223B" stroke="#2E3F63"/>
+    <text x="1394" y="767" text-anchor="middle">🌐 Cross-region inference</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="60" y="860" font-size="15" fill="#7C8AA5">Snowflake Cortex Hands-On Series</text>
+  <text x="1540" y="860" font-size="15" fill="#7C8AA5" text-anchor="end">No backend code · governed by Snowflake roles · tested Oct 2026</text>
+</svg>
