@@ -18,3 +18,4 @@ connections.toml
 Thumbs.db
 .vscode/
 .idea/
+episodes/*/medium.html
