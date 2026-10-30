@@ -1,5 +1,7 @@
 # Snowflake Cortex Hands-On
 
+![Snowflake AI Hands-On](assets/poster-medium.png)
+
 Copy-paste labs for Snowflake's AI features: Cortex AI Functions, Cortex Search, Cortex Analyst, Cortex Agents, Cortex Code, MCP and more.
 
 Every lab is:
