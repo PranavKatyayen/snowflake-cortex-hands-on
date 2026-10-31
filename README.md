@@ -1,7 +1,5 @@
 # Snowflake Cortex Hands-On
 
-![Snowflake AI Hands-On](assets/poster-medium.png)
-
 Copy-paste labs for Snowflake's AI features: Cortex AI Functions, Cortex Search, Cortex Analyst, Cortex Agents, Cortex Code, MCP and more.
 
 Every lab is:
@@ -19,7 +17,12 @@ Every lab is:
 ## Before any lab
 
 1. **Self-service trial?** Cortex AI features are disabled by default. Add a credit card in Snowsight under *Admin → Billing* to enable them. The trial continues.
-2. **Check model availability in your region:** run [`tools/models.sql`](tools/models.sql). If the models you need aren't hosted in your region, an ACCOUNTADMIN can enable cross-region inference:
+2. **Check model availability in your region:**
+   ```sql
+   SHOW CORTEX BASE MODELS
+     ->> SELECT "name", "lifecycle_status", "in_region_availability" FROM $1 ORDER BY 1;
+   ```
+   If the models you need aren't hosted in your region, an ACCOUNTADMIN can enable cross-region inference:
    ```sql
    ALTER ACCOUNT SET CORTEX_ENABLED_CROSS_REGION = 'ANY_REGION';
    ```

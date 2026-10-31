@@ -20,3 +20,7 @@ Thumbs.db
 .idea/
 episodes/*/medium.html
 episodes/*/linkedin-ready.txt
+
+# Local only
+assets/
+tools/
