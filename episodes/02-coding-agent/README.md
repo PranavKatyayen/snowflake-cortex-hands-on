@@ -2,7 +2,12 @@
 
 Send one message in Claude, and an agent running inside Snowflake writes, tests and deploys a live Streamlit app. It works under your role and asks before every change.
 
-**Standalone:** you don't need Episode 1. If you did it, this lab reuses the same data and Claude sign-in and leaves the rest untouched.
+**Standalone:** you don't need Episode 1.
+
+**Did Episode 1?**
+1. Run `setup.sql`. Existing objects are skipped.
+2. In Claude, add a **second** connector with the new URL (ending in `SNOWBREW_BUILDER_MCP`) and your **same** client ID.
+3. Continue from Quick start step 3.
 
 ![Architecture](images/architecture.png)
 
