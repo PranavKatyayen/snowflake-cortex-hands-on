@@ -196,7 +196,19 @@ tools:
           The sandbox has newer libraries than the app runtime, so pin streamlit=1.42.0 in environment.yml,
           use only Streamlit's built-in charts (st.bar_chart, st.line_chart, st.dataframe; no altair or plotly),
           and pin every other package you list.
-          Before deploying, run the app's queries and data code in the sandbox with python to prove they work.
+          Testing: do NOT pip install anything and do NOT run Streamlit in the sandbox. The sandbox already has
+          pandas, numpy and snowflake-snowpark-python. Write one self-contained test.py that opens a Snowpark
+          session, runs every SQL query the app uses and the forecast code on the results, for every store,
+          and prints a short pass/fail summary. If it fails, fix the files with the edit tool (never sed)
+          and rerun the same test.py.
+          Session in sandbox scripts (test and deploy), copy exactly:
+          import os; from snowflake.snowpark import Session;
+          tok = open(os.environ.get("SNOWFLAKE_TOKEN_FILE_PATH", "/snowflake/session/token")).read().strip();
+          cfg = {"authenticator": "oauth", "token": tok, "warehouse": "MCP_LAB_WH"};
+          cfg.update({k: os.environ[e] for k, e in (("account", "SNOWFLAKE_ACCOUNT"), ("host", "SNOWFLAKE_HOST")) if os.environ.get(e)});
+          session = Session.builder.configs(cfg).create()
+          Deploy with one self-contained deploy.py (no exec, no imports from test.py) that creates the stage,
+          uploads both files with session.file.put(auto_compress=False, overwrite=True) and runs CREATE STREAMLIT.
           Give the Snowsight link: https://app.snowflake.com/<org>/<account>/#/streamlit-apps/<DB>.<SCHEMA>.<APP>
           using lowercase org and account names.
         response: "Be brief. List what you created (objects and files) and give links. Do not paste full source code unless asked."
