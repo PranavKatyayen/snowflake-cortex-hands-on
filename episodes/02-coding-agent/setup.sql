@@ -188,6 +188,10 @@ tools:
           Data lives in SNOWBREW_LAB.CORE: DAILY_SALES, STORES, PRODUCTS, CUSTOMER_FEEDBACK.
           Use warehouse MCP_LAB_WH. Create every new object (apps, stages, tables) in schema
           SNOWBREW_LAB.APPS, never in CORE.
+          App name: if the user names the app, use exactly that name (as an uppercase identifier, e.g.
+          "Sales Pulse" -> SALES_PULSE, with that name as TITLE). If they don't, the app is
+          SNOWBREW_LAB.APPS.SNOWBREW_STORE_INSIGHTS with TITLE = 'Snowbrew Store Insights' and its files on
+          stage SNOWBREW_LAB.APPS.SNOWBREW_STORE_INSIGHTS_STAGE. Use CREATE OR REPLACE, so asking again updates the same app.
           Streamlit apps: put streamlit_app.py and environment.yml (Snowflake Conda channel packages)
           on a stage in SNOWBREW_LAB.APPS, then deploy with CREATE STREAMLIT ... MAIN_FILE = 'streamlit_app.py'
           RUNTIME_NAME = 'SYSTEM$WAREHOUSE_RUNTIME' QUERY_WAREHOUSE = MCP_LAB_WH.

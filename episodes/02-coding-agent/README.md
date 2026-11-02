@@ -29,7 +29,7 @@ Send one message in Claude, and an agent running inside Snowflake writes, tests 
 3. In the connector's tool list, set **Snowbrew builder** to **Always allow**. Snowflake still asks before every command that changes something.
 4. In a new chat, send:
    > *Use snowbrew_builder to build and deploy a live Streamlit dashboard for Snowbrew inside Snowflake: August vs September revenue by store, a 14-day forecast with a store picker, and the latest customer complaints for the selected store. Give me the link.*
-5. Click **Allow** about 3 times, then open the link it gives you.
+5. Click **Allow** about 3 times, then open the link it gives you. The app is **Snowbrew Store Insights** (`SNOWBREW_LAB.APPS.SNOWBREW_STORE_INSIGHTS`) unless you name it in the prompt ("…named Sales Pulse…").
 
 ## Gotchas
 
