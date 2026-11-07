@@ -10,7 +10,7 @@
    to one schema.
 
    Standalone: you do NOT need Episodes 1 or 2. Safe to run on top of them.
-   How to run : Snowsight > SQL worksheet > paste > Run All (~1 minute).
+   How to run : Snowsight > SQL worksheet > paste > Run All (~2-3 minutes).
    Run as     : a user who can use ACCOUNTADMIN (STEP 0 only).
    Cleanup    : cleanup.sql
 ============================================================================= */
@@ -415,21 +415,21 @@ AS
 
 
 /* -----------------------------------------------------------------------------
-   STEP 5 · Try it now (takes ~4 minutes; don't wait for 6am)
+   STEP 5 · Try it now (takes ~2 minutes; don't wait for 6am)
 ----------------------------------------------------------------------------- */
 USE ROLE NIGHT_SHIFT_ROLE;
 CALL SNOWBREW_LAB.NIGHT_SHIFT.LOAD_NEXT_DAY();             -- Night 1: Oct 1 lands
-CALL SNOWBREW_LAB.NIGHT_SHIFT.RUN_NIGHT_SHIFT();           -- the agent reviews it (~1-2 min)
-CALL SNOWBREW_LAB.NIGHT_SHIFT.BUILD_MORNING_BRIEF_APP();   -- the agent builds your app (~2 min)
+CALL SNOWBREW_LAB.NIGHT_SHIFT.RUN_NIGHT_SHIFT();           -- the agent reviews it (~1 min)
+CALL SNOWBREW_LAB.NIGHT_SHIFT.BUILD_MORNING_BRIEF_APP();   -- the agent builds your app (~1 min)
 
 SELECT STORE_NAME, SEVERITY, HEADLINE, CUSTOMER_VOICE, ACTION
 FROM SNOWBREW_LAB.NIGHT_SHIFT.MORNING_BRIEF ORDER BY BRIEF_DATE DESC, SEVERITY;
--- Open it: Snowsight > Projects > Streamlit > Snowbrew Morning Brief
+-- Open it: the "Snowbrew Morning Brief" Streamlit app in Snowsight
 
-/* Night 2, fully unattended, via the real task (run these two lines, wait ~2 min, refresh the app):
+/* Night 2, fully unattended, via the real task (run these two lines, wait ~1 min, refresh the app):
      CALL SNOWBREW_LAB.NIGHT_SHIFT.LOAD_NEXT_DAY();
      EXECUTE TASK SNOWBREW_LAB.NIGHT_SHIFT.NIGHTLY_REVIEW;
-   Every night from now on (~0.3-0.5 credits a night):
+   Every night from now on (measured: 0.09-0.36 agent credits a night, plus warehouse time):
      ALTER TASK SNOWBREW_LAB.NIGHT_SHIFT.NIGHTLY_REVIEW RESUME;
    Every run is logged:
      SELECT RUN_AT, STATUS, TOOL_CALLS, SUMMARY FROM SNOWBREW_LAB.NIGHT_SHIFT.NIGHT_SHIFT_LOG ORDER BY RUN_AT DESC;
