@@ -24,3 +24,5 @@ episodes/*/linkedin-ready.txt
 # Local only
 assets/
 tools/
+episodes/*/medium-*.md
+episodes/*/medium-*.html
