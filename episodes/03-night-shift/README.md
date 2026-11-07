@@ -43,7 +43,7 @@ There's no chat and nobody clicking: it runs under a locked-down role.
 
 ## Night Shift vs CoCo Automations
 
-Snowflake's **CoCo Automations** (preview, under *Snowsight → CoCo → Automations*) also runs an agent on a schedule. Under the hood, each automation is an `AGENT TASK` in your personal `USER$` database. It runs the same coding-agent engine as your **user** with your default role, has approval prompts turned off, and emails you the result through its `gather_email_content` tool.
+Snowflake's **CoCo Automations** (preview, under *Snowsight → CoCo → Automations*) also runs an agent on a schedule. Under the hood, each automation is an `AGENT TASK` in your personal `USER$` database. It runs the same coding-agent engine as your **user**, with your default role (there's no option to choose another). Approval prompts are turned off, and the result is emailed to you through the `gather_email_content` tool.
 
 | | CoCo Automations | The Night Shift |
 |---|---|---|
@@ -51,9 +51,11 @@ Snowflake's **CoCo Automations** (preview, under *Snowsight → CoCo → Automat
 | Runs as | Your user and default role | A dedicated least-privilege role |
 | Company rules | Inside each prompt | A shared playbook skill on a stage (`SKILL.md`, scripts, house rules) |
 | Output | An email plus run history | A `MORNING_BRIEF` table plus a live team app |
-| Writes | The agent itself | The agent only reads; a procedure writes |
+| Writing to tables | Blocked by Restricted Session Scope (tested) | The agent reads; a procedure writes the results |
 
-**Use Automations** for personal reports and alerts. **Use this pattern** when the agent works for a team, follows versioned company rules, must run under a service role and has to deliver to a table or app. You can also combine them: point an automation at `NIGHT_SHIFT_LOG` to get emailed about failed runs.
+Tested 7 Nov 2026: creating an agent task outside a personal database fails with *"Agent tasks can only be created in a personal database"*. An automation's `INSERT` fails with *"Restricted session scope: USER SPECIFIED does not include INSERT access"*.
+
+**Use Automations** for personal reports and alerts. **Use this pattern** when the agent works for a team, follows versioned company rules, must run under a service role and has to deliver to a table or app.
 
 ## Gotchas
 
