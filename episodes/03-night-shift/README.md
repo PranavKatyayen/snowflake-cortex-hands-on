@@ -43,7 +43,7 @@ There's no chat and nobody clicking: it runs under a locked-down role.
 
 ## Night Shift vs CoCo Automations
 
-Snowflake's **CoCo Automations** (preview, under *Snowsight → CoCo → Automations*) also runs an agent on a schedule. Under the hood, each automation is an `AGENT TASK` in your personal `USER$` database. It runs the same coding-agent engine as your **user**, with your default role (there's no option to choose another). Approval prompts are turned off, and the result is emailed to you through the `gather_email_content` tool.
+Snowflake's **CoCo Automations** (preview, under *Snowsight → CoCo → Automations*) also runs an agent on a schedule. Under the hood, each automation is an `AGENT TASK` in your personal `USER$` database. It runs the same coding-agent engine as your **user**, with your default role **plus all your secondary roles** (there's no option to choose another). Approval prompts are turned off, and the result is emailed to you through the `gather_email_content` tool.
 
 | | CoCo Automations | The Night Shift |
 |---|---|---|
