@@ -1,0 +1,221 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#070C1A"/>
+      <stop offset="1" stop-color="#0E1A30"/>
+    </linearGradient>
+    <linearGradient id="sf" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#29B5E8"/>
+      <stop offset="1" stop-color="#6E8BFF"/>
+    </linearGradient>
+    <linearGradient id="agent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1B3D6B"/>
+      <stop offset="1" stop-color="#14294A"/>
+    </linearGradient>
+    <linearGradient id="night" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1A1840"/>
+      <stop offset="1" stop-color="#121231"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#29B5E8"/></marker>
+    <marker id="arrv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6E8BFF"/></marker>
+    <marker id="arra" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#F2B84B"/></marker>
+    <marker id="arrg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#36C5A4"/></marker>
+    <marker id="arrc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#D9A066"/></marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <g stroke="#FFFFFF" stroke-opacity="0.03">
+    <path d="M0 100H1600M0 200H1600M0 300H1600M0 400H1600M0 500H1600M0 600H1600M0 700H1600M0 800H1600"/>
+    <path d="M100 0V900M200 0V900M300 0V900M400 0V900M500 0V900M600 0V900M700 0V900M800 0V900M900 0V900M1000 0V900M1100 0V900M1200 0V900M1300 0V900M1400 0V900M1500 0V900"/>
+  </g>
+  <!-- stars -->
+  <g fill="#FFFFFF">
+    <circle cx="980" cy="40" r="1.4" opacity="0.6"/><circle cx="1120" cy="70" r="1" opacity="0.5"/><circle cx="1240" cy="30" r="1.2" opacity="0.5"/>
+    <circle cx="860" cy="88" r="1" opacity="0.4"/><circle cx="1290" cy="112" r="1.3" opacity="0.4"/><circle cx="1050" cy="120" r="0.9" opacity="0.4"/>
+  </g>
+
+  <!-- Title -->
+  <text x="60" y="68" font-size="34" font-weight="700" fill="#FFFFFF">The Night Shift: an agent that works while you sleep</text>
+  <text x="60" y="102" font-size="19" fill="#9FB0CC">Snowflake task · AGENT_RUN coding agent · your playbook as a skill on a stage · Morning Brief app</text>
+  <rect x="1330" y="44" width="210" height="40" rx="20" fill="none" stroke="url(#sf)" stroke-width="2"/>
+  <text x="1435" y="70" font-size="16" font-weight="600" fill="#29B5E8" text-anchor="middle">EPISODE 3</text>
+
+  <!-- ===================== LEFT: NIGHT ===================== -->
+  <text x="60" y="168" font-size="14" font-weight="700" fill="#7C8AA5" letter-spacing="2">WHILE YOU SLEEP</text>
+  <g>
+    <rect x="60" y="184" width="300" height="92" rx="14" fill="#131C2E" stroke="#3A4A6B" stroke-width="2"/>
+    <text x="80" y="216" font-size="20" font-weight="700" fill="#FFFFFF">🌙 New day lands</text>
+    <text x="80" y="242" font-size="14" fill="#9FB0CC">yesterday's sales + customer reviews</text>
+    <text x="80" y="262" font-size="13" fill="#7C8AA5">LOAD_NEXT_DAY()</text>
+  </g>
+  <g>
+    <rect x="60" y="300" width="300" height="104" rx="14" fill="url(#night)" stroke="#8B7CF6" stroke-width="2"/>
+    <text x="80" y="333" font-size="20" font-weight="700" fill="#FFFFFF">⏰ 06:00 · Snowflake task</text>
+    <text x="80" y="359" font-size="14" fill="#C9C2FF">NIGHTLY_REVIEW</text>
+    <text x="80" y="381" font-size="13" fill="#9FB0CC">CRON 0 6 * * * · no human, no chat</text>
+  </g>
+  <g>
+    <rect x="60" y="430" width="300" height="190" rx="14" fill="#16130E" stroke="#D9A066" stroke-width="2"/>
+    <text x="80" y="460" font-size="13" font-weight="700" fill="#D9A066" letter-spacing="2">NOBODY CLICKS ALLOW</text>
+    <g font-size="14" fill="#E6ECF7">
+      <text x="80" y="492">So the agent gets its own</text>
+      <text x="80" y="512">least-privilege role, and at</text>
+      <text x="80" y="532">night it can only <tspan font-weight="700" fill="#FFFFFF">read</tspan>.</text>
+      <text x="80" y="562">It hands back a brief;</text>
+      <text x="80" y="582">a plain SQL procedure</text>
+      <text x="80" y="602"><tspan font-weight="700" fill="#FFFFFF">writes</tspan> it.</text>
+    </g>
+  </g>
+
+  <!-- task -> procedure -->
+  <path d="M360 352 L428 352" fill="none" stroke="#8B7CF6" stroke-width="2.5" marker-end="url(#arrv)"/>
+  <path d="M360 230 C 395 230, 395 340, 428 344" fill="none" stroke="#3A4A6B" stroke-width="2" stroke-dasharray="5 5"/>
+
+  <!-- ===================== SNOWFLAKE ACCOUNT ===================== -->
+  <rect x="405" y="150" width="1140" height="660" rx="22" fill="#0D1729" stroke="url(#sf)" stroke-width="2.5"/>
+  <g transform="translate(435,186)">
+    <g stroke="#29B5E8" stroke-width="3" stroke-linecap="round">
+      <line x1="0" y1="-12" x2="0" y2="12"/><line x1="-10.4" y1="-6" x2="10.4" y2="6"/><line x1="-10.4" y1="6" x2="10.4" y2="-6"/>
+    </g>
+  </g>
+  <text x="458" y="193" font-size="16" font-weight="700" fill="#29B5E8" letter-spacing="2">SNOWFLAKE ACCOUNT</text>
+  <text x="1515" y="193" font-size="14" fill="#7C8AA5" text-anchor="end">SNOWBREW_LAB.NIGHT_SHIFT</text>
+
+  <!-- Procedure -->
+  <rect x="430" y="225" width="260" height="190" rx="16" fill="#122039" stroke="#29B5E8" stroke-width="2" filter="url(#glow)"/>
+  <text x="452" y="257" font-size="13" font-weight="700" fill="#29B5E8" letter-spacing="2">PROCEDURE</text>
+  <text x="452" y="285" font-size="20" font-weight="700" fill="#FFFFFF">RUN_NIGHT_SHIFT()</text>
+  <text x="452" y="307" font-size="13" fill="#9FB0CC">EXECUTE AS CALLER</text>
+  <g font-size="14" fill="#D5DEF0">
+    <text x="452" y="338">① wake the agent</text>
+    <text x="452" y="362">② parse its JSON brief</text>
+    <text x="452" y="386">③ write MORNING_BRIEF</text>
+  </g>
+
+  <!-- proc <-> agent -->
+  <line x1="690" y1="282" x2="728" y2="282" stroke="#29B5E8" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="730" y1="372" x2="692" y2="372" stroke="#F2B84B" stroke-width="2.5" marker-end="url(#arra)"/>
+
+  <!-- Agent -->
+  <rect x="730" y="225" width="290" height="190" rx="16" fill="url(#agent)" stroke="#6E8BFF" stroke-width="2"/>
+  <text x="752" y="257" font-size="13" font-weight="700" fill="#A9B8FF" letter-spacing="2">CODING AGENT</text>
+  <text x="752" y="285" font-size="20" font-weight="700" fill="#FFFFFF">The Night Shift</text>
+  <g font-size="14" fill="#D5DEF0">
+    <text x="752" y="316">① load the playbook skill</text>
+    <text x="752" y="340">② run your anomaly script</text>
+    <text x="752" y="364">③ read + translate reviews</text>
+    <text x="752" y="388">④ connect stores, pick actions</text>
+  </g>
+  <text x="752" y="408" font-size="11" fill="#8FA0C8">always_allow · runs as NIGHT_SHIFT_ROLE</text>
+
+  <!-- agent <- playbook -->
+  <line x1="1058" y1="320" x2="1022" y2="320" stroke="#D9A066" stroke-width="2.5" marker-end="url(#arrc)"/>
+  <text x="1040" y="310" font-size="11" fill="#D9A066" text-anchor="middle">skill</text>
+
+  <!-- Playbook stage -->
+  <rect x="1060" y="225" width="455" height="190" rx="16" fill="#1A140E" stroke="#D9A066" stroke-width="2"/>
+  <text x="1082" y="257" font-size="13" font-weight="700" fill="#D9A066" letter-spacing="2">YOUR PLAYBOOK · A SKILL ON A STAGE</text>
+  <g font-size="14">
+    <rect x="1082" y="272" width="411" height="38" rx="9" fill="#241A11" stroke="#4A3826"/>
+    <text x="1096" y="296" font-weight="700" fill="#F5E6D3">SKILL.md</text>
+    <text x="1180" y="296" fill="#C9B79F">KPIs · severity rules · app house style</text>
+    <rect x="1082" y="316" width="411" height="38" rx="9" fill="#241A11" stroke="#4A3826"/>
+    <text x="1096" y="340" font-weight="700" fill="#F5E6D3">house_rules.md</text>
+    <text x="1222" y="340" fill="#C9B79F">plain-English rules you add</text>
+    <rect x="1082" y="360" width="411" height="38" rx="9" fill="#241A11" stroke="#4A3826"/>
+    <text x="1096" y="384" font-weight="700" fill="#F5E6D3">detect_anomalies.py</text>
+    <text x="1262" y="384" fill="#C9B79F">your official check</text>
+  </g>
+
+  <!-- agent -> sandbox -->
+  <line x1="875" y1="415" x2="875" y2="463" stroke="#6E8BFF" stroke-width="2.5" marker-end="url(#arrv)"/>
+
+  <!-- Data -->
+  <g>
+    <rect x="430" y="465" width="260" height="225" rx="16" fill="#131F36" stroke="#2E3F63"/>
+    <rect x="430" y="465" width="6" height="225" rx="3" fill="#36C5A4"/>
+    <text x="452" y="495" font-size="13" font-weight="700" fill="#36C5A4" letter-spacing="2">READS</text>
+    <text x="452" y="522" font-size="18" font-weight="700" fill="#FFFFFF">Your tables</text>
+    <g font-size="14" fill="#9FB0CC">
+      <text x="452" y="552">SALES</text>
+      <text x="452" y="574">STORES · PRODUCTS</text>
+      <text x="452" y="596">FEEDBACK (EN · 日本語 · Hinglish)</text>
+    </g>
+    <text x="452" y="640" font-size="12" fill="#7C8AA5">the agent can never</text>
+    <text x="452" y="658" font-size="12" fill="#7C8AA5">modify these</text>
+  </g>
+  <line x1="728" y1="560" x2="692" y2="560" stroke="#36C5A4" stroke-width="2.5" marker-end="url(#arrg)"/>
+
+  <!-- Sandbox -->
+  <rect x="730" y="465" width="290" height="225" rx="16" fill="#111C30" stroke="#6E8BFF" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="752" y="495" font-size="13" font-weight="700" fill="#A9B8FF" letter-spacing="2">MANAGED SANDBOX</text>
+  <g font-size="14" font-weight="600" fill="#E6ECF7">
+    <rect x="752" y="512" width="72" height="32" rx="16" fill="#17294A" stroke="#2E3F63"/><text x="788" y="533" text-anchor="middle">bash</text>
+    <rect x="832" y="512" width="72" height="32" rx="16" fill="#17294A" stroke="#2E3F63"/><text x="868" y="533" text-anchor="middle">SQL</text>
+    <rect x="912" y="512" width="88" height="32" rx="16" fill="#17294A" stroke="#2E3F63"/><text x="956" y="533" text-anchor="middle">Python</text>
+  </g>
+  <text x="752" y="576" font-size="14" fill="#D5DEF0">skill mounted read-only</text>
+  <text x="752" y="600" font-size="14" fill="#D5DEF0">Restricted Session Scope:</text>
+  <text x="752" y="622" font-size="14" font-weight="700" fill="#FFFFFF">writes blocked inside tasks</text>
+  <text x="752" y="664" font-size="12" fill="#7C8AA5">Snowflake enforces it, not a prompt</text>
+
+  <!-- proc -> brief table -->
+  <path d="M560 415 V440 H1270 V463" fill="none" stroke="#36C5A4" stroke-width="2.5" marker-end="url(#arrg)"/>
+  <text x="1150" y="433" font-size="12" fill="#36C5A4" text-anchor="middle">procedure writes the brief</text>
+
+  <!-- Brief table -->
+  <g>
+    <rect x="1060" y="465" width="455" height="62" rx="12" fill="#131F36" stroke="#2E3F63"/>
+    <text x="1082" y="493" font-size="16" font-weight="700" fill="#FFFFFF">MORNING_BRIEF</text>
+    <text x="1082" y="514" font-size="13" fill="#9FB0CC">severity · headline · evidence · customer voice · action</text>
+  </g>
+  <line x1="1288" y1="527" x2="1288" y2="546" stroke="#36C5A4" stroke-width="2" marker-end="url(#arrg)"/>
+
+  <!-- App -->
+  <g>
+    <rect x="1060" y="548" width="455" height="142" rx="16" fill="#1B110B" stroke="#36C5A4" stroke-width="2" filter="url(#glow)"/>
+    <text x="1082" y="578" font-size="13" font-weight="700" fill="#36C5A4" letter-spacing="2">LIVE STREAMLIT APP · 08:00 ☕</text>
+    <text x="1082" y="604" font-size="17" font-weight="700" fill="#F5E6D3">Snowbrew Morning Brief</text>
+    <g font-size="11" font-weight="700" fill="#1B110B">
+      <rect x="1082" y="618" width="128" height="26" rx="8" fill="#2A1B12" stroke="#E5484D"/>
+      <rect x="1090" y="624" width="38" height="14" rx="7" fill="#E5484D"/><text x="1109" y="635" text-anchor="middle">HIGH</text>
+      <text x="1136" y="636" font-weight="600" fill="#F5E6D3">Sydney</text>
+      <rect x="1218" y="618" width="138" height="26" rx="8" fill="#2A1B12" stroke="#F2B84B"/>
+      <rect x="1226" y="624" width="52" height="14" rx="7" fill="#F2B84B"/><text x="1252" y="635" text-anchor="middle">MEDIUM</text>
+      <text x="1286" y="636" font-weight="600" fill="#F5E6D3">Shinjuku</text>
+      <rect x="1364" y="618" width="130" height="26" rx="8" fill="#2A1B12" stroke="#3DD68C"/>
+      <rect x="1372" y="624" width="36" height="14" rx="7" fill="#3DD68C"/><text x="1390" y="635" text-anchor="middle">GOOD</text>
+      <text x="1416" y="636" font-weight="600" fill="#F5E6D3">Shibuya</text>
+    </g>
+    <text x="1082" y="672" font-size="12" fill="#C9B79F">built once by the agent in your house style · reads the brief live</text>
+  </g>
+
+  <!-- Governance -->
+  <text x="430" y="726" font-size="13" font-weight="700" fill="#7C8AA5" letter-spacing="2">GOVERNANCE</text>
+  <g font-size="14" font-weight="600" fill="#E6ECF7">
+    <rect x="430" y="740" width="262" height="44" rx="22" fill="#14223B" stroke="#2E3F63"/>
+    <text x="561" y="767" text-anchor="middle">🔐 Own role: NIGHT_SHIFT_ROLE</text>
+    <rect x="704" y="740" width="262" height="44" rx="22" fill="#14223B" stroke="#2E3F63"/>
+    <text x="835" y="767" text-anchor="middle">👀 Agent read-only at night</text>
+    <rect x="978" y="740" width="262" height="44" rx="22" fill="#14223B" stroke="#2E3F63"/>
+    <text x="1109" y="767" text-anchor="middle">✍️ Procedure writes the brief</text>
+    <rect x="1252" y="740" width="263" height="44" rx="22" fill="#14223B" stroke="#2E3F63"/>
+    <text x="1383" y="767" text-anchor="middle">📜 Every run logged</text>
+  </g>
+
+  <!-- arrow labels on top -->
+  <g font-size="11" font-weight="700" text-anchor="middle">
+    <rect x="668" y="252" width="82" height="18" rx="9" fill="#0D1729" stroke="#29B5E8"/>
+    <text x="709" y="265" fill="#29B5E8">AGENT_RUN</text>
+    <rect x="668" y="384" width="82" height="18" rx="9" fill="#0D1729" stroke="#F2B84B"/>
+    <text x="709" y="397" fill="#F2B84B">brief JSON</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="60" y="860" font-size="15" fill="#7C8AA5">Snowflake AI, Hands-On · Episode 3</text>
+  <text x="1540" y="860" font-size="15" fill="#7C8AA5" text-anchor="end">Change the rules in plain English · the agent follows them tomorrow · tested Nov 2026</text>
+</svg>

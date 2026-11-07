@@ -13,6 +13,7 @@ Every lab is:
 |---|---|---|---|
 | 1 | [Snowflake-managed MCP server](episodes/01-mcp-server) | Claude and Cursor answer "why did sales drop?" from governed Snowflake data, using a Cortex Agent, Analyst, Search and a custom tool | budget ~3 |
 | 2 | [A coding agent inside Snowflake](episodes/02-coding-agent) | One message in Claude, and an agent inside Snowflake writes, tests and deploys a live Streamlit app, with your approval at every step | budget ~3 |
+| 3 | [The Night Shift](episodes/03-night-shift) | A scheduled agent follows your company playbook (a skill on a stage), investigates every night and leaves a Morning Brief app waiting; change its rules in plain English | budget ~3 |
 
 ## Before any lab
 
