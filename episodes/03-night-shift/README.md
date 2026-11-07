@@ -41,6 +41,20 @@ There's no chat and nobody clicking: it runs under a locked-down role.
    CALL SNOWBREW_LAB.NIGHT_SHIFT.RUN_NIGHT_SHIFT();   -- the same night, now with the sell-out flagged
    ```
 
+## Night Shift vs CoCo Automations
+
+Snowflake's **CoCo Automations** (preview, under *Snowsight → CoCo → Automations*) also runs an agent on a schedule. Under the hood, each automation is an `AGENT TASK` in your personal `USER$` database. It runs the same coding-agent engine as your **user** with your default role, has approval prompts turned off, and emails you the result through its `gather_email_content` tool.
+
+| | CoCo Automations | The Night Shift |
+|---|---|---|
+| Built for | You: "email me a report" | A team: "do our review, our way" |
+| Runs as | Your user and default role | A dedicated least-privilege role |
+| Company rules | Inside each prompt | A shared playbook skill on a stage (`SKILL.md`, scripts, house rules) |
+| Output | An email plus run history | A `MORNING_BRIEF` table plus a live team app |
+| Writes | The agent itself | The agent only reads; a procedure writes |
+
+**Use Automations** for personal reports and alerts. **Use this pattern** when the agent works for a team, follows versioned company rules, must run under a service role and has to deliver to a table or app. You can also combine them: point an automation at `NIGHT_SHIFT_LOG` to get emailed about failed runs.
+
 ## Gotchas
 
 - **Owner's-rights procedures remove the coding tools.** Call `AGENT_RUN` from an `EXECUTE AS CALLER` procedure. Otherwise the response warns *"Code execution tools are unavailable when an agent is invoked from an owner's rights stored procedure."*
