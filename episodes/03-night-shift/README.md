@@ -49,7 +49,7 @@ Snowflake's **CoCo Automations** (preview, under *Snowsight → CoCo → Automat
 |---|---|---|
 | Built for | You: "email me a report" | A team: "do our review, our way" |
 | Runs as | Your user and default role | A dedicated least-privilege role |
-| Company rules | Inside each prompt | A shared playbook skill on a stage (`SKILL.md`, scripts, house rules) |
+| Company rules | The prompt, plus skills in your personal workspace (`.snowflake/cortex/skills/`, tested) | A shared playbook skill on a stage (`SKILL.md`, scripts, house rules) |
 | Output | An email plus run history | A `MORNING_BRIEF` table plus a live team app |
 | Writing to tables | Blocked by Restricted Session Scope (tested) | The agent reads; a procedure writes the results |
 
