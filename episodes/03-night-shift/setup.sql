@@ -3,22 +3,32 @@
    "The Night Shift": an AI agent that works while you sleep, by your playbook
 
    Every night a Snowflake task wakes up NIGHT_SHIFT_AGENT, a named Cortex
-   coding agent. It reads your company
-   playbook (a SKILL stored on a stage), checks the new day's numbers with your
-   own anomaly script, investigates what moved, writes a morning brief and
-   keeps a live Streamlit "Morning Brief" app up to date, styled your way.
-   No chat, no clicks: it runs under a locked-down role that can only write
-   to one schema.
+   coding agent. It reads your company playbook (a SKILL stored on a stage),
+   checks the new day's numbers with your own anomaly script, investigates
+   what moved and hands back a morning brief, which a procedure saves. A live
+   Streamlit "Morning Brief" app shows it, styled your way.
 
    Standalone: you do NOT need Episodes 1 or 2. Safe to run on top of them.
-   How to run : Snowsight > SQL worksheet > paste > Run All (~2-3 minutes).
-   Run as     : a user who can use ACCOUNTADMIN (STEP 0 only).
-   Cleanup    : cleanup.sql
+   Run as    : a user who can use ACCOUNTADMIN (STEP 0 only).
+   Cleanup   : cleanup.sql
+
+   HOW TO USE THIS FILE
+   PART A (STEPS 0-5): paste into a Snowsight SQL worksheet and click Run All.
+                       ~3 minutes. Builds everything, runs night 1 and has the
+                       agent build your app. Measured: ~0.5-0.7 agent credits.
+   PART B (STEPS 6-10): at the bottom, inside a comment so Run All skips them.
+                       Run them one step at a time, when you're ready:
+                       select the lines of ONE step and press Ctrl+Enter
+                       (Cmd+Enter on Mac).
 ============================================================================= */
 
 
 /* -----------------------------------------------------------------------------
-   STEP 0 · Admin setup (ACCOUNTADMIN)
+   STEP 0 · Admin setup                          role: ACCOUNTADMIN · seconds
+   Why : the lab needs its roles before anything else exists.
+   What happens: enables cross-region AI (so the models are available), creates
+   MCP_LAB_ROLE (you) and NIGHT_SHIFT_ROLE (the agent's locked-down role), and
+   gives both the Cortex database roles. Re-running is safe (IF NOT EXISTS).
 ----------------------------------------------------------------------------- */
 USE ROLE ACCOUNTADMIN;
 
@@ -43,7 +53,11 @@ GRANT DATABASE ROLE SNOWFLAKE.CORTEX_AGENT_USER TO ROLE NIGHT_SHIFT_ROLE;
 
 
 /* -----------------------------------------------------------------------------
-   STEP 1 · Warehouse, database, schema
+   STEP 1 · Warehouse, database, schema          role: MCP_LAB_ROLE · seconds
+   Why : one place for this episode, so it never touches Episodes 1-2.
+   What happens: creates the X-Small warehouse MCP_LAB_WH (auto-suspends after
+   60 s) and SNOWBREW_LAB if missing, and RESETS the NIGHT_SHIFT schema.
+   Re-running this file starts the episode over from a clean schema.
 ----------------------------------------------------------------------------- */
 USE ROLE MCP_LAB_ROLE;
 
@@ -59,8 +73,13 @@ USE SCHEMA SNOWBREW_LAB.NIGHT_SHIFT;
 
 
 /* -----------------------------------------------------------------------------
-   STEP 2 · Data: Snowbrew Coffee Co. (fictional), 8 stores, Jun 1 – Sep 30 2026
-   Same deterministic data as Episodes 1-2. New days arrive later via LOAD_NEXT_DAY().
+   STEP 2 · Data: Snowbrew Coffee Co. (fictional)  role: MCP_LAB_ROLE · ~10 s
+   Why : realistic sales + multilingual reviews for the agent to investigate.
+   What happens: 8 stores, Jun 1 - Sep 30 2026, 9,760 sales rows (identical to
+   Episodes 1-2), 7 reviews, plus "tomorrow's" reviews waiting in
+   INCOMING_FEEDBACK. LOAD_NEXT_DAY() plays the data team: each call appends
+   the next day (1 Oct, then 2 Oct, ...). Also creates MORNING_BRIEF (what the
+   agent reports), NIGHT_SHIFT_LOG (every run) and NIGHT_SHIFT_ROLE's grants.
 ----------------------------------------------------------------------------- */
 CREATE OR REPLACE TABLE STORES AS
 SELECT $1::VARCHAR AS STORE_ID, $2::VARCHAR AS STORE_NAME, $3::VARCHAR AS CITY, $4::VARCHAR AS COUNTRY,
@@ -192,9 +211,12 @@ GRANT CREATE STAGE, CREATE STREAMLIT, CREATE PROCEDURE, CREATE TASK ON SCHEMA SN
 
 
 /* -----------------------------------------------------------------------------
-   STEP 3 · The company playbook, as an agent SKILL on a stage
-   A skill is a folder with a SKILL.md (+ any scripts). Edit the text below to
-   make it yours: the agent follows it every night.
+   STEP 3 · Your playbook (a SKILL) and the agent  role: MCP_LAB_ROLE · ~10 s
+   Why : the agent follows YOUR rules, written in plain English, not code.
+   What happens: writes 3 files to the PLAYBOOK stage (SKILL.md, your official
+   detect_anomalies.py and house_rules.md), then creates NIGHT_SHIFT_AGENT, a
+   named Cortex Agent with the coding tools and this skill. You own the agent;
+   NIGHT_SHIFT_ROLE gets USAGE to run it. Edit SKILL.md to make it yours.
 ----------------------------------------------------------------------------- */
 CREATE OR REPLACE STAGE PLAYBOOK DIRECTORY = (ENABLE = TRUE) COMMENT = 'Company playbook skills for agents';
 GRANT READ ON STAGE PLAYBOOK TO ROLE NIGHT_SHIFT_ROLE;
@@ -340,10 +362,14 @@ GRANT USAGE ON AGENT SNOWBREW_LAB.NIGHT_SHIFT.NIGHT_SHIFT_AGENT TO ROLE NIGHT_SH
 
 
 /* -----------------------------------------------------------------------------
-   STEP 4 · The night shift: procedures that wake the agent, and a task that
-   runs it every night. All owned by NIGHT_SHIFT_ROLE, so the agent can never
-   do more than that role. permission_policy = always_allow (nobody is awake to
-   click Allow), which is exactly why the role is locked down.
+   STEP 4 · Procedures + the nightly task       role: NIGHT_SHIFT_ROLE · seconds
+   Why : something has to wake the agent at night and save its answer.
+   What happens: creates ASK_NIGHT_SHIFT (runs the agent, logs the run),
+   RUN_NIGHT_SHIFT (the nightly review: the agent only READS and returns a
+   brief, this procedure WRITES it), BUILD_MORNING_BRIEF_APP (one-off: the
+   agent builds your app) and the task NIGHTLY_REVIEW (06:00 Tokyo). Nothing
+   runs yet: the task is created SUSPENDED. The agent uses always_allow
+   (nobody is awake to click Allow), which is why its role is locked down.
 ----------------------------------------------------------------------------- */
 USE ROLE NIGHT_SHIFT_ROLE;
 USE WAREHOUSE MCP_LAB_WH;
@@ -422,7 +448,7 @@ BEGIN
 END;
 $$;
 
--- 06:00 Tokyo every day. Tasks are created SUSPENDED; STEP 5 runs it by hand.
+-- 06:00 Tokyo every day. Created SUSPENDED: STEP 6 runs it once, STEP 9 turns it on.
 CREATE OR REPLACE TASK NIGHTLY_REVIEW
   WAREHOUSE = MCP_LAB_WH
   SCHEDULE  = 'USING CRON 0 6 * * * Asia/Tokyo'
@@ -433,7 +459,15 @@ AS
 
 
 /* -----------------------------------------------------------------------------
-   STEP 5 · Try it now (takes ~2 minutes; don't wait for 6am)
+   STEP 5 · Night 1, right now                  role: NIGHT_SHIFT_ROLE · ~2-3 min
+   Why : see it work without waiting for 6am.
+   What happens: loads 1 Oct, the agent reviews it (~1 min, measured
+   0.08-0.31 agent credits) and the procedure saves the brief, then the agent
+   writes, tests and deploys your app (~1 min, 0.38-0.39 credits). Last, it
+   shows the brief. Expect: Surry Hills (Sydney) HIGH -50.1%, Shinjuku Station
+   MEDIUM -12.2%, Shibuya Crossing GOOD_NEWS +86.0% (wording varies, numbers
+   don't). Then open: Snowsight > Apps > Streamlit > Snowbrew Morning Brief
+   Next: PART B at the bottom (night 2, teach it a rule, ...).
 ----------------------------------------------------------------------------- */
 USE ROLE NIGHT_SHIFT_ROLE;
 CALL SNOWBREW_LAB.NIGHT_SHIFT.LOAD_NEXT_DAY();             -- Night 1: Oct 1 lands
@@ -442,13 +476,69 @@ CALL SNOWBREW_LAB.NIGHT_SHIFT.BUILD_MORNING_BRIEF_APP();   -- the agent builds y
 
 SELECT STORE_NAME, SEVERITY, HEADLINE, CUSTOMER_VOICE, ACTION
 FROM SNOWBREW_LAB.NIGHT_SHIFT.MORNING_BRIEF ORDER BY BRIEF_DATE DESC, SEVERITY;
--- Open it: Snowsight > Apps > Streamlit > Snowbrew Morning Brief
+/* =============================================================================
+   PART B · Run these AFTER Run All, one step at a time.
+   Select the lines of ONE step (not the comment markers) and press Ctrl+Enter.
+============================================================================= */
+/*
+-- -----------------------------------------------------------------------------
+-- STEP 6 · Night 2, fully unattended          role: NIGHT_SHIFT_ROLE · ~1 min
+-- Why : prove the real scheduled task works with nobody involved.
+-- What happens: loads 2 Oct, then runs the actual task once. The task wakes the
+-- agent, the agent reviews 2 Oct, and the procedure saves the brief.
+-- Expect: task SUCCEEDED; in the app pick 2026-10-02: Indiranagar (Bengaluru)
+-- HIGH -31.1% (power cut). Tanjong Pagar is NOT flagged yet (see STEP 7).
+-- Measured: ~0.07 agent credits.
+USE ROLE NIGHT_SHIFT_ROLE;
+CALL SNOWBREW_LAB.NIGHT_SHIFT.LOAD_NEXT_DAY();
+EXECUTE TASK SNOWBREW_LAB.NIGHT_SHIFT.NIGHTLY_REVIEW;
+-- Check the run. Right away it says SCHEDULED or EXECUTING; run just this SELECT
+-- again after ~1 minute until it says SUCCEEDED, then refresh the app:
+SELECT NAME, STATE, ERROR_MESSAGE, COMPLETED_TIME
+FROM TABLE(SNOWBREW_LAB.INFORMATION_SCHEMA.TASK_HISTORY(TASK_NAME => 'NIGHTLY_REVIEW'))
+ORDER BY SCHEDULED_TIME DESC LIMIT 1;
 
-/* Night 2, fully unattended, via the real task (run these two lines, wait ~1 min, refresh the app):
-     CALL SNOWBREW_LAB.NIGHT_SHIFT.LOAD_NEXT_DAY();
-     EXECUTE TASK SNOWBREW_LAB.NIGHT_SHIFT.NIGHTLY_REVIEW;
-   Every night from now on (measured: 0.09-0.36 agent credits a night, plus warehouse time):
-     ALTER TASK SNOWBREW_LAB.NIGHT_SHIFT.NIGHTLY_REVIEW RESUME;
-   Every run is logged:
-     SELECT RUN_AT, STATUS, TOOL_CALLS, SUMMARY FROM SNOWBREW_LAB.NIGHT_SHIFT.NIGHT_SHIFT_LOG ORDER BY RUN_AT DESC;
+-- -----------------------------------------------------------------------------
+-- STEP 7 · Teach it a new rule, in plain English  roles: MCP_LAB_ROLE, then NIGHT_SHIFT_ROLE · ~1 min
+-- Why : the playbook checks store revenue only, so night 2 missed Singapore's
+-- oat-cookie sell-out. One new sentence in house_rules.md fixes that, no code.
+-- What happens: rewrites house_rules.md with a third rule, then re-runs the review
+-- of the same night. Expect: Tanjong Pagar (Singapore) MEDIUM "Sell-out: ...",
+-- Oat Cookie 4 units vs 19.75 (20.3% of normal). Measured: ~0.1 agent credits.
+USE ROLE MCP_LAB_ROLE;
+CALL SNOWBREW_LAB.NIGHT_SHIFT.WRITE_STAGE_FILE(
+  '@SNOWBREW_LAB.NIGHT_SHIFT.PLAYBOOK/skills/snowbrew-playbook/house_rules.md',
+'# Snowbrew house rules
+- Write money as USD with thousands separators, e.g. $1,234.56.
+- Name the city next to every store, e.g. "Surry Hills (Sydney)".
+- Sell-outs: for every store, compare each product''s units on the latest day with the same weekday over the previous 4 weeks. If a product sold less than 40% of normal, add it to the brief as MEDIUM with a headline starting "Sell-out:", even if the store''s total revenue looks fine.
+');
+USE ROLE NIGHT_SHIFT_ROLE;
+CALL SNOWBREW_LAB.NIGHT_SHIFT.RUN_NIGHT_SHIFT();      -- then refresh the app (2026-10-02)
+
+-- -----------------------------------------------------------------------------
+-- STEP 8 · (Only if you deleted the app) rebuild it   role: NIGHT_SHIFT_ROLE · ~1 min
+-- What happens: the agent writes, tests and deploys the app again from the
+-- playbook. Your briefs are untouched. Measured: ~0.4 agent credits.
+USE ROLE NIGHT_SHIFT_ROLE;
+CALL SNOWBREW_LAB.NIGHT_SHIFT.BUILD_MORNING_BRIEF_APP();
+
+-- -----------------------------------------------------------------------------
+-- STEP 9 · Leave it running every night, or stop it   role: NIGHT_SHIFT_ROLE
+-- What happens: RESUME runs the review every day at 06:00 Tokyo time (measured
+-- 0.07-0.31 agent credits a night, plus warehouse time). In this lab a new day
+-- only arrives when you call LOAD_NEXT_DAY(); otherwise it re-reviews the same day.
+USE ROLE NIGHT_SHIFT_ROLE;
+ALTER TASK SNOWBREW_LAB.NIGHT_SHIFT.NIGHTLY_REVIEW RESUME;
+-- ALTER TASK SNOWBREW_LAB.NIGHT_SHIFT.NIGHTLY_REVIEW SUSPEND;   -- stop
+
+-- -----------------------------------------------------------------------------
+-- STEP 10 · See what the agent did                    role: MCP_LAB_ROLE
+-- What happens: your own run log (status, tool calls, the agent's answer), and
+-- Snowflake's monitoring events for the named agent.
+USE ROLE MCP_LAB_ROLE;
+SELECT RUN_AT, STATUS, TOOL_CALLS, SUMMARY
+FROM SNOWBREW_LAB.NIGHT_SHIFT.NIGHT_SHIFT_LOG ORDER BY RUN_AT DESC;
+SELECT COUNT_IF(RECORD:name::STRING = 'CORTEX_AGENT_REQUEST') AS AGENT_REQUESTS
+FROM TABLE(SNOWFLAKE.LOCAL.GET_AI_OBSERVABILITY_EVENTS('SNOWBREW_LAB', 'NIGHT_SHIFT', 'NIGHT_SHIFT_AGENT', 'CORTEX AGENT'));
 */
