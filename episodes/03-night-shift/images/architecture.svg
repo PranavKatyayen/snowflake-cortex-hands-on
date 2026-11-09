@@ -40,7 +40,7 @@
 
   <!-- Title -->
   <text x="60" y="68" font-size="34" font-weight="700" fill="#FFFFFF">The Night Shift: an agent that works while you sleep</text>
-  <text x="60" y="102" font-size="19" fill="#9FB0CC">Snowflake task · AGENT_RUN coding agent · your playbook as a skill on a stage · Morning Brief app</text>
+  <text x="60" y="102" font-size="19" fill="#9FB0CC">Snowflake task · NIGHT_SHIFT_AGENT, a named Cortex coding agent · your playbook as a skill on a stage · Morning Brief app</text>
   <rect x="1330" y="44" width="210" height="40" rx="20" fill="none" stroke="url(#sf)" stroke-width="2"/>
   <text x="1435" y="70" font-size="16" font-weight="600" fill="#29B5E8" text-anchor="middle">EPISODE 3</text>
 
@@ -102,8 +102,8 @@
 
   <!-- Agent -->
   <rect x="730" y="225" width="290" height="190" rx="16" fill="url(#agent)" stroke="#6E8BFF" stroke-width="2"/>
-  <text x="752" y="257" font-size="13" font-weight="700" fill="#A9B8FF" letter-spacing="2">CODING AGENT</text>
-  <text x="752" y="285" font-size="20" font-weight="700" fill="#FFFFFF">The Night Shift</text>
+  <text x="752" y="257" font-size="13" font-weight="700" fill="#A9B8FF" letter-spacing="2">NAMED CORTEX AGENT</text>
+  <text x="752" y="285" font-size="20" font-weight="700" fill="#FFFFFF">NIGHT_SHIFT_AGENT</text>
   <g font-size="14" fill="#D5DEF0">
     <text x="752" y="316">① load the playbook skill</text>
     <text x="752" y="340">② run your anomaly script</text>
@@ -158,7 +158,7 @@
     <rect x="832" y="512" width="72" height="32" rx="16" fill="#17294A" stroke="#2E3F63"/><text x="868" y="533" text-anchor="middle">SQL</text>
     <rect x="912" y="512" width="88" height="32" rx="16" fill="#17294A" stroke="#2E3F63"/><text x="956" y="533" text-anchor="middle">Python</text>
   </g>
-  <text x="752" y="576" font-size="14" fill="#D5DEF0">skill mounted read-only</text>
+  <text x="752" y="576" font-size="14" fill="#D5DEF0">playbook skill loaded</text>
   <text x="752" y="600" font-size="14" fill="#D5DEF0">Restricted Session Scope:</text>
   <text x="752" y="622" font-size="14" font-weight="700" fill="#FFFFFF">writes blocked inside tasks</text>
   <text x="752" y="664" font-size="12" fill="#7C8AA5">Snowflake enforces it, not a prompt</text>
@@ -209,8 +209,8 @@
 
   <!-- arrow labels on top -->
   <g font-size="11" font-weight="700" text-anchor="middle">
-    <rect x="668" y="252" width="82" height="18" rx="9" fill="#0D1729" stroke="#29B5E8"/>
-    <text x="709" y="265" fill="#29B5E8">AGENT_RUN</text>
+    <rect x="640" y="243" width="108" height="18" rx="9" fill="#0D1729" stroke="#29B5E8"/>
+    <text x="694" y="256" fill="#29B5E8">DATA_AGENT_RUN</text>
     <rect x="668" y="384" width="82" height="18" rx="9" fill="#0D1729" stroke="#F2B84B"/>
     <text x="709" y="397" fill="#F2B84B">brief JSON</text>
   </g>

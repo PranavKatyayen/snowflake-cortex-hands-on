@@ -2,7 +2,8 @@
    SNOWFLAKE AI, HANDS-ON · EPISODE 3
    "The Night Shift": an AI agent that works while you sleep, by your playbook
 
-   Every night a Snowflake task wakes up a coding agent. It reads your company
+   Every night a Snowflake task wakes up NIGHT_SHIFT_AGENT, a named Cortex
+   coding agent. It reads your company
    playbook (a SKILL stored on a stage), checks the new day's numbers with your
    own anomaly script, investigates what moved, writes a morning brief and
    keeps a live Streamlit "Morning Brief" app up to date, styled your way.
@@ -311,6 +312,32 @@ $$);
 
 LIST @PLAYBOOK;
 
+-- The Night Shift agent itself: a named Cortex Agent with the coding tools and the playbook skill.
+-- You (MCP_LAB_ROLE) own its instructions; the night-shift role may only RUN it, never change it.
+CREATE OR REPLACE AGENT SNOWBREW_LAB.NIGHT_SHIFT.NIGHT_SHIFT_AGENT
+  COMMENT = 'Episode 3: the Snowbrew Night Shift agent'
+  FROM SPECIFICATION
+$$
+models:
+  orchestration: auto
+instructions:
+  system: "You are the Snowbrew Night Shift, an unattended agent. Nobody is awake to answer questions, so never ask: decide, act and report. Always load and follow the snowbrew-playbook skill."
+tools:
+  - tool_spec:
+      type: "code_toolset_all"
+      name: "code_toolset_all"
+tool_resources:
+  code_toolset_all:
+    permission_policy:
+      type: "always_allow"
+skills:
+  - name: "snowbrew-playbook"
+    source:
+      type: "STAGE"
+      path: "@SNOWBREW_LAB.NIGHT_SHIFT.PLAYBOOK/skills/snowbrew-playbook"
+$$;
+GRANT USAGE ON AGENT SNOWBREW_LAB.NIGHT_SHIFT.NIGHT_SHIFT_AGENT TO ROLE NIGHT_SHIFT_ROLE;
+
 
 /* -----------------------------------------------------------------------------
    STEP 4 · The night shift: procedures that wake the agent, and a task that
@@ -322,11 +349,11 @@ USE ROLE NIGHT_SHIFT_ROLE;
 USE WAREHOUSE MCP_LAB_WH;
 USE SCHEMA SNOWBREW_LAB.NIGHT_SHIFT;
 
--- Wakes the agent with the playbook skill, logs the run, returns its final answer.
+-- Runs the NIGHT_SHIFT_AGENT with a message, logs the run, returns its final answer.
 CREATE OR REPLACE PROCEDURE ASK_NIGHT_SHIFT(TASK_TEXT VARCHAR)
 RETURNS VARCHAR
 LANGUAGE SQL
-EXECUTE AS CALLER   -- required: Snowflake removes the code tools when an agent runs from an owner's-rights procedure
+EXECUTE AS CALLER   -- caller's rights: Snowflake removed the code tools when I ran the agent from an owner's-rights procedure
 AS
 $$
 DECLARE
@@ -336,20 +363,11 @@ DECLARE
   run_status VARCHAR;
   tool_calls NUMBER;
 BEGIN
+  -- Only the message: the model, instructions, tools and skill all come from the agent object.
   request := TO_JSON(OBJECT_CONSTRUCT(
-    'models', OBJECT_CONSTRUCT('orchestration', 'auto'),
-    'instructions', OBJECT_CONSTRUCT(
-      'system', 'You are the Snowbrew Night Shift, an unattended agent. Nobody is awake to answer questions, so never ask: decide, act and report. Always load and follow the snowbrew-playbook skill.'),
     'messages', ARRAY_CONSTRUCT(OBJECT_CONSTRUCT('role', 'user',
-      'content', ARRAY_CONSTRUCT(OBJECT_CONSTRUCT('type', 'text', 'text', :TASK_TEXT)))),
-    'tools', ARRAY_CONSTRUCT(OBJECT_CONSTRUCT('tool_spec',
-      OBJECT_CONSTRUCT('type', 'code_toolset_all', 'name', 'code_toolset_all'))),
-    'tool_resources', OBJECT_CONSTRUCT('code_toolset_all',
-      OBJECT_CONSTRUCT('permission_policy', OBJECT_CONSTRUCT('type', 'always_allow'))),
-    'skills', ARRAY_CONSTRUCT(OBJECT_CONSTRUCT('name', 'snowbrew-playbook',
-      'source', OBJECT_CONSTRUCT('type', 'STAGE', 'path', '@SNOWBREW_LAB.NIGHT_SHIFT.PLAYBOOK/skills/snowbrew-playbook')))
-  ));
-  resp   := TRY_PARSE_JSON(SNOWFLAKE.CORTEX.AGENT_RUN(:request, TRUE));
+      'content', ARRAY_CONSTRUCT(OBJECT_CONSTRUCT('type', 'text', 'text', :TASK_TEXT))))));
+  resp   := TRY_PARSE_JSON(SNOWFLAKE.CORTEX.DATA_AGENT_RUN('SNOWBREW_LAB.NIGHT_SHIFT.NIGHT_SHIFT_AGENT', :request));
   answer     := COALESCE(resp:content[ARRAY_SIZE(resp:content) - 1]:text::VARCHAR, LEFT(TO_VARCHAR(resp), 2000));
   run_status := resp:status::VARCHAR;
   tool_calls := REGEXP_COUNT(TO_VARCHAR(resp), '"type":"tool_use"');

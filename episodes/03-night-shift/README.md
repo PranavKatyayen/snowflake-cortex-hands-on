@@ -1,6 +1,6 @@
 # Episode 3: The Night Shift
 
-Every night, a Snowflake task wakes up a coding agent. It follows your company **playbook**, a skill stored on a stage, and then:
+Every night, a Snowflake task wakes up `NIGHT_SHIFT_AGENT`, a named Cortex coding agent. It follows your company **playbook**, a skill stored on a stage, and then:
 1. checks the new day with your own anomaly script;
 2. investigates what moved, connecting stores and translating reviews;
 3. writes a morning brief with owners and deadlines;
@@ -14,7 +14,7 @@ There's no chat and nobody clicking: it runs under a locked-down role.
 
 | File | Run where | What it does |
 |---|---|---|
-| [`setup.sql`](setup.sql) | Snowsight worksheet → **Run All** (~2-3 min) | Creates the data, the playbook skill (`SKILL.md` + `detect_anomalies.py`) on a stage, `NIGHT_SHIFT_ROLE`, the procedures and the nightly task. Then it runs night 1 and has the agent build the app. |
+| [`setup.sql`](setup.sql) | Snowsight worksheet → **Run All** (~3 min) | Creates the data, the playbook skill (`SKILL.md` + `detect_anomalies.py`) on a stage, the named agent `NIGHT_SHIFT_AGENT`, `NIGHT_SHIFT_ROLE`, the procedures and the nightly task. Then it runs night 1 and has the agent build the app. |
 | [`cleanup.sql`](cleanup.sql) | Snowsight worksheet | Suspends the task and drops the `NIGHT_SHIFT` schema and role |
 
 ## Quick start
@@ -47,9 +47,9 @@ CoCo Automations also run an agent on a schedule. I'm testing them properly and 
 
 ## Gotchas
 
-- **Owner's-rights procedures remove the coding tools.** Call `AGENT_RUN` from an `EXECUTE AS CALLER` procedure. Otherwise the response warns *"Code execution tools are unavailable when an agent is invoked from an owner's rights stored procedure."*
+- **Owner's-rights procedures removed the coding tools** in my first, inline `AGENT_RUN` version. The final version calls the named agent with `DATA_AGENT_RUN` from an `EXECUTE AS CALLER` procedure. The warning I got was *"Code execution tools are unavailable when an agent is invoked from an owner's rights stored procedure."*
 - **In a task, the agent's own writes are blocked** by Restricted Session Scope (*"Restricted session scope: USER SPECIFIED does not include DELETE access…"*). So the agent only reads and returns the brief as JSON, and the procedure writes it. That's the safer design anyway.
 - **Skills from a stage:** the agent loads the skill and runs the scripts in the skill folder.
 - **Snowflake's docs say `PUT` can't run from a Snowsight worksheet,** so `setup.sql` writes the skill files with a tiny Python procedure (`WRITE_STAGE_FILE`).
 
-**Tested:** 1–8 Nov 2026 · AWS ap-northeast-1 · Enterprise edition · 3 full end-to-end runs (setup 131–156 s) · night 2 via the scheduled task: SUCCEEDED 3 of 3 · house-rule demo: flagged 3 of 3 · cleanup leaves Episodes 1–2 working · budget ~3 credits
+**Tested:** 1–8 Nov 2026 · AWS ap-northeast-1 · Enterprise edition · 5 full end-to-end runs, the last 2 with this exact script (setup 162–186 s) · night 2 via the scheduled task: SUCCEEDED 5 of 5 · house-rule demo: flagged 5 of 5 · cleanup leaves Episodes 1–2 working · budget ~3 credits
