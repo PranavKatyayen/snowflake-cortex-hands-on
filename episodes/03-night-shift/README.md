@@ -20,7 +20,7 @@ There's no chat and nobody clicking: it runs under a locked-down role.
 ## Quick start
 
 1. Run `setup.sql`. At the end you'll see night 1's brief.
-2. Open the **Snowbrew Morning Brief** Streamlit app in Snowsight.
+2. Open **Snowsight → Apps → Streamlit → Snowbrew Morning Brief**.
 3. Night 2, unattended:
    ```sql
    USE ROLE NIGHT_SHIFT_ROLE;

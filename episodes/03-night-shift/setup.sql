@@ -442,7 +442,7 @@ CALL SNOWBREW_LAB.NIGHT_SHIFT.BUILD_MORNING_BRIEF_APP();   -- the agent builds y
 
 SELECT STORE_NAME, SEVERITY, HEADLINE, CUSTOMER_VOICE, ACTION
 FROM SNOWBREW_LAB.NIGHT_SHIFT.MORNING_BRIEF ORDER BY BRIEF_DATE DESC, SEVERITY;
--- Open it: the "Snowbrew Morning Brief" Streamlit app in Snowsight
+-- Open it: Snowsight > Apps > Streamlit > Snowbrew Morning Brief
 
 /* Night 2, fully unattended, via the real task (run these two lines, wait ~1 min, refresh the app):
      CALL SNOWBREW_LAB.NIGHT_SHIFT.LOAD_NEXT_DAY();
